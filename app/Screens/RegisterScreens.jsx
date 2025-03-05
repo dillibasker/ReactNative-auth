@@ -1,54 +1,87 @@
 import { useState } from "react";
-import { StyleSheet, TextInput,Text,View,Button } from "react-native";
-import {createUserWithEmailAndPassword} from "firebase/auth"
-import auth from "../(tabs)/firebase"
+import { StyleSheet, TextInput, Text, View, Button, TouchableOpacity } from "react-native";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import auth from "../(tabs)/firebase";
+import { register } from "../api"; // Import register function
 
 const RegisterScreens = () => {
-    const [email,setEmail] =useState("")
-    const [password,setPassword] =useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-    const handleSubmit=()=>{
-        console.log(email,password);
-        createUserWithEmailAndPassword(auth,email,password)
-        .then((userCredential) =>{
-            const user = userCredential.user;
-        })
+  const handleSubmit = async () => {
+    try {
+      // Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      console.log("Firebase User:", user);
+
+      // Backend Registration
+      const response = await register({ email, password });
+      setMessage(response.data.message || "User registered successfully!");
+
+    } catch (error) {
+      setMessage(error.message || "Registration failed.");
     }
+  };
 
   return (
     <View style={styles.container}>
-        <Text style={styles.register}>Register</Text>
-        <TextInput  placeholder="Email" style={styles.inputbox} onChangeText={setEmail}/>
-        <TextInput  placeholder="Password" style={styles.inputbox} secureTextEntry ={true} onChangeText={setPassword}/>
-        <Button style={styles.Button}>Register</Button>
-        <Text>Already have an account </Text>
+      <Text style={styles.register}>Register</Text>
+      <TextInput 
+        placeholder="Email" 
+        style={styles.inputbox} 
+        onChangeText={setEmail}
+        value={email} 
+      />
+      <TextInput 
+        placeholder="Password" 
+        style={styles.inputbox} 
+        secureTextEntry={true} 
+        onChangeText={setPassword}
+        value={password}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
+      {message ? <Text>{message}</Text> : null}
+      <Text>Already have an account?</Text>
     </View>
-  )
-}
+  );
+};
 
-const styles=StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:"white",
-        alignItems:"center",
-        justifyContent:"center",
-    },
-    inputbox:{
-        borderRadius:5,
-        borderColor:"black",
-        borderWidth:2,
-        marginVertical:10,
-        padding:4,
-        width:190
-    },
-    register:{
-        fontWeight:500,
-        padding:10,
-        fontSize:30   
-    },
-    Button:{
-        
-    }
-})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inputbox: {
+    borderRadius: 5,
+    borderColor: "black",
+    borderWidth: 2,
+    marginVertical: 10,
+    padding: 8,
+    width: 200,
+  },
+  register: {
+    fontWeight: "bold",
+    padding: 10,
+    fontSize: 30,
+  },
+  button: {
+    backgroundColor: "#007BFF",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    width: 200,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+  },
+});
 
-export default RegisterScreens
+export default RegisterScreens;

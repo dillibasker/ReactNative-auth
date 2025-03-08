@@ -1,25 +1,21 @@
 import { useState } from "react";
-import { StyleSheet, TextInput, Text, View, Button, TouchableOpacity } from "react-native";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import auth from "../(tabs)/firebase";
+import { StyleSheet, TextInput, Text, View, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
 import { register } from "../api"; // Import register function
 
 const RegisterScreens = () => {
+  const router = useRouter();// ✅ Get navigation object
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const username = "dilli";
 
   const handleSubmit = async () => {
     try {
-      // Firebase Authentication
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      console.log("Firebase User:", user);
-
       // Backend Registration
-      const response = await register({ email, password });
+      const response = await register({ username, email, password });
       setMessage(response.data.message || "User registered successfully!");
-
     } catch (error) {
       setMessage(error.message || "Registration failed.");
     }
@@ -27,9 +23,9 @@ const RegisterScreens = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.register}>Register</Text>
+      <Text style={styles.register}>Login</Text>
       <TextInput 
-        placeholder="Email" 
+        placeholder="Email"
         style={styles.inputbox} 
         onChangeText={setEmail}
         value={email} 
@@ -45,7 +41,10 @@ const RegisterScreens = () => {
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
       {message ? <Text>{message}</Text> : null}
-      <Text>Already have an account?</Text>
+
+      <TouchableOpacity onPress={() => router.push("/forgotpasswordscreen")}>
+        <Text style={styles.forgotPassword}>Forgot Password?</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -81,6 +80,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 16,
+  },
+  forgotPassword: {
+    marginTop: 15,
+    color: "#007BFF",
+    fontSize: 14,
+    textDecorationLine: "underline",
   },
 });
 

@@ -6,18 +6,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-
 export default function HomeScreen() {
-
 
   return (
     <NavigationContainer>
-    <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Home">
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Register" component={RegisterScreens} />
       <Stack.Screen name="forgotpassword" component={ForgotPasswordScreen} />
 
-    </Stack.Navigator>
+      </Stack.Navigator>
   </NavigationContainer>
 
   )}

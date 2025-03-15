@@ -14,7 +14,6 @@ export default function HomeScreen() {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Register" component={RegisterScreens} />
       <Stack.Screen name="forgotpassword" component={ForgotPasswordScreen} />
-
       </Stack.Navigator>
   </NavigationContainer>
 

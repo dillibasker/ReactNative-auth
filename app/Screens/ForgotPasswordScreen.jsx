@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import axios from "axios";
 
-const API_URL = "http://192.168.21.136:5000/api/auth"; // Your backend API
+const API_URL = "http://192.168.21.136:5000/api"; // Your backend API
 
 const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState("");

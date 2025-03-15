@@ -21,6 +21,8 @@ const RegisterScreens = () => {
     }
   };
 
+  
+
   return (
     <View style={styles.container}>
       <Text style={styles.register}>Login</Text>

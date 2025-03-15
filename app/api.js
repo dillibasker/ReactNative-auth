@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://192.168.21.136:5000/api"; // Use "http://192.168.x.x:5000" for physical devices
+const API_URL = "http://192.168.129.136:5000/api"; // Use "http://192.168.x.x:5000" for physical devices
 
 export const student = (data) =>
   axios.post(`${API_URL}/student`, data, {

@@ -14,7 +14,7 @@ const RegisterScreens = () => {
   const handleSubmit = async () => {
     try {
       // Backend Registration
-      const response = await register({ username, email, password });
+      const response = await register({ email, password });
       setMessage(response.data.message || "User registered successfully!");
     } catch (error) {
       setMessage(error.message || "Registration failed.");

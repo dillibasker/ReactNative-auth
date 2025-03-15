@@ -44,7 +44,7 @@ const RegisterScreens = () => {
       </TouchableOpacity>
       {message ? <Text>{message}</Text> : null}
 
-      <TouchableOpacity onPress={() => router.push("/forgotpasswordscreen")}>
+      <TouchableOpacity onPress={() => navigation.navigate("forgotpassword")}>
         <Text style={styles.forgotPassword}>Forgot Password?</Text>
       </TouchableOpacity>
     </View>

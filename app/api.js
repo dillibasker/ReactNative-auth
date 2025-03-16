@@ -15,6 +15,10 @@ export const register = (data) =>
     headers: { "Content-Type": "application/json" },
   });
 
+  export const googlesign=(dat)=>{
+    axios.post(``)
+  }
+
 export const login = (data) =>
   axios.post(`${API_URL}/login`, data, {
     headers: { "Content-Type": "application/json" },

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { StyleSheet, TextInput, Text, View, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { register } from "../api"; // Import register function
+import { auth, provider, signInWithPopup } from "../utils/firebase";
 
 const RegisterScreens = () => {
   const router = useRouter();// ✅ Get navigation object
@@ -21,6 +22,26 @@ const RegisterScreens = () => {
     }
   };
 
+  const handleGoogleLogin=async()=>{
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("Google User:", user);
+
+      // Send Google user data to your backend
+      const response = await , {
+          username: user.displayName,
+          email: user.email,
+      });
+
+      alert("Google Sign-in Successful");
+      router.push("/home"); 
+  } catch (error) {
+      console.error("Google Sign-in Error:", error);
+      alert("Google Sign-in Failed");
+  }
+
+  }
   
 
   return (
@@ -43,6 +64,8 @@ const RegisterScreens = () => {
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
       {message ? <Text>{message}</Text> : null}
+      
+      <Button title="Sign in with Google" onPress={handleGoogleLogin} />
 
       <TouchableOpacity onPress={() => navigation.navigate("forgotpassword")}>
         <Text style={styles.forgotPassword}>Forgot Password?</Text>
